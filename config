@@ -1,0 +1,37 @@
+FWTYPE=iptables
+SET_MAXELEM=522288
+IPSET_OPT="hashsize 262144 maxelem $SET_MAXELEM"
+IP2NET_OPT4="--prefix-length=22-30 --v4-threshold=3/4"
+IP2NET_OPT6="--prefix-length=56-64 --v6-threshold=5"
+AUTOHOSTLIST_RETRANS_THRESHOLD=3
+AUTOHOSTLIST_FAIL_THRESHOLD=3
+AUTOHOSTLIST_FAIL_TIME=60
+AUTOHOSTLIST_DEBUGLOG=0
+MDIG_THREADS=30
+GZIP_LISTS=1
+DESYNC_MARK=0x40000000
+DESYNC_MARK_POSTNAT=0x20000000
+TPWS_SOCKS_ENABLE=0
+TPPORT_SOCKS=987
+TPWS_SOCKS_OPT="
+--filter-tcp=80 --methodeol <HOSTLIST> --new
+--filter-tcp=443 --split-pos=1,midsld --disorder <HOSTLIST>
+"
+TPWS_ENABLE=0
+TPWS_PORTS=80,443
+TPWS_OPT="
+--filter-tcp=80 --methodeol <HOSTLIST> --new
+--filter-tcp=443 --split-pos=1,midsld --disorder <HOSTLIST>
+"
+NFQWS_ENABLE=1
+NFQWS_PORTS_TCP=80,443
+NFQWS_PORTS_UDP=443,50000-50099
+NFQWS_TCP_PKT_OUT=9
+NFQWS_TCP_PKT_IN=3
+NFQWS_UDP_PKT_OUT=9
+NFQWS_UDP_PKT_IN=0
+NFQWS_OPT="--filter-tcp=80 --dpi-desync=fake,fakedsplit --dpi-desync-autottl=2 --dpi-desync-fooling=md5sig --hostlist-auto=/opt/zapret/autohosts.txt --hostlist-exclude=/opt/zapret/ignore.txt --new --filter-tcp=443 --hostlist=/opt/zapret/etc/youtube.txt --dpi-desync=fake,multidisorder --dpi-desync-split-pos=1,midsld --dpi-desync-repeats=11 --dpi-desync-fooling=md5sig --dpi-desync-fake-tls-mod=rnd,dupsid,sni=www.google.com --new --filter-tcp=443 --dpi-desync=fake,multidisorder --dpi-desync-split-pos=midsld --dpi-desync-repeats=6 --dpi-desync-fooling=badseq,md5sig --hostlist-auto=/opt/zapret/autohosts.txt --hostlist-exclude=/opt/zapret/ignore.txt --new --filter-udp=443 --hostlist=/opt/zapret/etc/youtube.txt --dpi-desync=fake --dpi-desync-repeats=11 --dpi-desync-fake-quic=/opt/zapret/etc/quic_initial_www_google_com.bin --new --filter-udp=443 --dpi-desync=fake --dpi-desync-repeats=11 --hostlist=/opt/zapret/autohosts.txt --hostlist-exclude=/opt/zapret/ignore.txt --new --filter-udp=50000-50099 --filter-l7=discord,stun --dpi-desync=fake"
+MODE_FILTER=none
+FLOWOFFLOAD=donttouch
+INIT_APPLY_FW=1
+DISABLE_IPV6=1
