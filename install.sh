@@ -7,6 +7,8 @@ fi
 
 rm /usr/lib/systemd/system/zapret.service > /dev/null 2>&1
 rm -rf /opt/zapret > /dev/null 2>&1
+rm -rf /etc/sv/zapret > /dev/null 2>&1
+rm -rf /var/service/zapret > /dev/null 2>&1
 killall nfqws > /dev/null 2>&1
 
 mkdir -p /opt/zapret
@@ -100,7 +102,29 @@ EOF
     rc-update add zapret default
     rc-service zapret start
     echo "Installation complete. zapret is now in the /opt/zapret folder, you can delete the folder in Downloads."
+elif command -v sv >/dev/null 2>&1 && [ -d /run/runit ]; then
+    mkdir -p /etc/sv/zapret/
+    cat <<EOF > /etc/sv/zapret/run
+#!/bin/sh
+exec 2>&1
+exec /opt/zapret/system/starter.sh
+EOF
+    chmod +x /etc/sv/zapret/run
+    mkdir -p /etc/sv/zapret/log
+    cat <<EOF > /etc/sv/zapret/log/run
+#!/bin/sh
+exec vlogger -t zapret -p daemon
+EOF
+    chmod +x /etc/sv/zapret/log/run
+    cat <<EOF > /etc/sv/zapret/finish
+#!/bin/sh
+exec 2>&1
+exec /opt/zapret/system/stopper.sh
+EOF
+    chmod +x /etc/sv/zapret/finish
+    ln -s /etc/sv/zapret /var/service/
+    echo "Installation complete. zapret is now in the /opt/zapret folder, you can delete the folder in Downloads."
 else
-    echo "Failed to detect init system (systemd or OpenRC not found)."
+    echo "Failed to detect init system (systemd, OpenRC or runit not found)."
     exit 1
 fi
