@@ -39,6 +39,7 @@ while IFS= read -r line; do
     line="${line//\{ipset\}//opt/zapret/ipset.txt}"
     line="${line//\{quicgoogle\}//opt/zapret/system/quic_initial_www_google_com.bin}"
     line="${line//\{tlsgoogle\}//opt/zapret/system/tls_clienthello_www_google_com.bin}"
+    line="${line//\{tls4pda\}//opt/zapret/system/tls_clienthello_4pda_to.bin}"
     line="$(echo "$line" | sed -E 's/--wf-(tcp|udp)=[^ ]+//g')"
     line="$(echo "$line" | sed -E 's/  +/ /g' | sed -E 's/^ //;s/ $//')"
     ARGS+=" $line"
