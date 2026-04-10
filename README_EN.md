@@ -39,6 +39,8 @@ Is a blocked site not working? Try adding its domain to `/opt/zapret/autohosts.t
 
 You can add blocked IP-addresses and CIDR to `/opt/zapret/ipset.txt`
 
+`/opt/zapret/whitelist.txt` — whitelist of domains. Requests to Cloudflare, Hetzner, OVH, etc. servers with these domains work correctly. Do not confuse with the mobile internet whitelist.
+
 Is an unblocked site not working? Add its domain to `/opt/zapret/ignore.txt`
 
 The config can be changed in `/opt/zapret/config.txt` (restart zapret after making changes)
@@ -61,6 +63,8 @@ If the files are empty, rules apply to all interfaces.
 `{hosts}` — Substitutes the path to `autohosts.txt`
 
 `{ipset}` — Substitutes the path to `ipset.txt`
+
+`{whitelist}` — Substitutes the path to `whitelist.txt`
 
 `{ignore}` — Substitutes the path to `ignore.txt`
 
